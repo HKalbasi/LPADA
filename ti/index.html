@@ -49,7 +49,7 @@
       };
       const lessonId = getUrlParam('lesson');
       const loadLesson = async (x) => {
-        const { value : levels } = await import(`./${x}.mjs`);
+        const { value : levels } = await import(`./${x}.js`);
         const mylevel = parseInt(window.localStorage.getItem(`level/ti/${x}`) || 0);
         if (mylevel === levels.length) {
           window.localStorage.setItem(`lesson/ti/${x}`, 'done');
