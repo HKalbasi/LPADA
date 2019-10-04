@@ -6,7 +6,7 @@
     <button onclick="window.localStorage.clear()">RESET</button>
     <canvas style="width: 100vmax;height: 100vmax" height="1000" width="1000"></canvas>
     <script type="module">
-      import { value } from "/room/main.mjs";
+      import { value } from "./room/main.mjs";
       const st = window.localStorage;
       value.forEach(x=>x.status = (st.getItem(`lesson/${x.id}`) === 'done' ? 'done': 'locked'));
       value.forEach(x=>{
