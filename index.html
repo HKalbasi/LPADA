@@ -69,7 +69,7 @@
       };
       const gotoLesson = (l) => {
         const [a,b] = l.split('/');
-        window.location = `/${a}/?lesson=${b}`;
+        window.location = `./${a}/?lesson=${b}`;
       };
       $('canvas').onmousedown = (evt) => {
         const nl = nlf(evt);

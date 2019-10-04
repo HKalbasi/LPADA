@@ -49,16 +49,17 @@
       };
       const lessonId = getUrlParam('lesson');
       const loadLesson = async (x) => {
-        const { value : levels } = await import(`./${x}.js`);
+        const { value : levels } = await import(`./${x}.mjs`);
         const mylevel = parseInt(window.localStorage.getItem(`level/ti/${x}`) || 0);
         if (mylevel === levels.length) {
           window.localStorage.setItem(`lesson/ti/${x}`, 'done');
-          window.location = "/";
+          window.location = "../";
           return;
         }
         const l = levels[mylevel];
         const title = document.createElement('h1');
         title.innerText = l.title;
+        $('#d-info').innerHTML = "";
         $('#d-info').appendChild(title);
         l.text.forEach(x => {
           const ne = document.createElement('p');
@@ -76,7 +77,7 @@
             return;
           }
           else {
-            alert(`پاسخ شما به ازای ${res} نادرست است`);
+            alert(`پاسخ شما نادرست است`);
           }
         };
       };
