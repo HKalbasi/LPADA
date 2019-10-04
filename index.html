@@ -1,0 +1,83 @@
+<html>
+  <head>
+
+  </head>
+  <body>
+    <button onclick="window.localStorage.clear()">RESET</button>
+    <canvas style="width: 100vmax;height: 100vmax" height="1000" width="1000"></canvas>
+    <script type="module">
+      import { value } from "/room/main.mjs";
+      const st = window.localStorage;
+      value.forEach(x=>x.status = (st.getItem(`lesson/${x.id}`) === 'done' ? 'done': 'locked'));
+      value.forEach(x=>{
+        if (x.status !== 'locked') return;
+        if (x.depend.find(y=>value[y].status!=='done') === undefined){
+          x.status = 'open';
+        }
+      });
+      const psize = 1000;
+      const size = psize/100;
+      const $ = (x)=>document.querySelector(x);
+      const canvas = $('canvas');
+      const ctx = canvas.getContext('2d');
+      const canvas_arrow = (fromx, fromy, tox, toy) => {
+        var headlen = 10; // length of head in pixels
+        var dx = tox - fromx;
+        var dy = toy - fromy;
+        var angle = Math.atan2(dy, dx);
+        ctx.moveTo(fromx, fromy);
+        ctx.lineTo(tox, toy);
+        ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+        ctx.moveTo(tox, toy);
+        ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+        ctx.stroke();
+      };
+      value.forEach(o=>{
+        const cmap = {
+          locked : '#000',
+          done : '#0A0',
+          open : '#AA0',
+        };
+        ctx.fillStyle = cmap[o.status];
+        ctx.fillRect(o.x-size,o.y-size,size*2,size*2);
+        ctx.fillStyle = '#000';
+        o.depend.forEach(i=>{
+          const d = value[i];
+          canvas_arrow(d.x, d.y, o.x, o.y);
+        })
+      });
+      function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: psize*(evt.clientX - rect.left)/rect.width,
+          y: psize*(evt.clientY - rect.top)/rect.height,
+        };
+      }
+      const nlf = (evt) => {
+        var pos = getMousePos(canvas, evt);
+        return value.find(o=>
+          o.x-size <= pos.x && o.x+size >=pos.x
+          &&
+          o.y-size <= pos.y && o.y+size >=pos.y
+        );
+      };
+      $('canvas').onmousemove = (evt) => {
+        const nl = nlf(evt);
+        let cr = 'pointer'
+        if (nl === undefined) cr='default';
+        document.body.style.cursor = cr; 
+      };
+      const gotoLesson = (l) => {
+        const [a,b] = l.split('/');
+        window.location = `/${a}/?lesson=${b}`;
+      };
+      $('canvas').onmousedown = (evt) => {
+        const nl = nlf(evt);
+        if (nl !== undefined) {
+          if (nl.status === 'open')
+            gotoLesson(nl.id);
+        }
+      };
+    </script>
+  </body>
+</html>

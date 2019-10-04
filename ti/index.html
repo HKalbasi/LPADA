@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <style>
+      .panel{
+        width: 49%;
+        display: inline-block;
+        vertical-align: top;
+      }
+      .big{
+        width: 100%;
+      }
+      .ltr{
+        direction: ltr;
+      }
+    </style>
+  </head>
+  <body dir="rtl">
+    <div id="d-info" class="panel"></div>
+    <div class="panel">
+      برنامه:
+      <br>
+      <textarea id="in-code" class="big ltr"></textarea>
+      <br>
+      ورودی:
+      <br>
+      <textarea id="in-inp" class="big ltr"></textarea>
+      <br>
+      <button id="b-test">تست</button>
+      <button id="b-judge">داوری و رفتن به مرحله بعدی</button>
+      <br>
+      خروجی:
+      <div id="l-out"></div>
+    </div>
+    <script type="module">
+      const $ = x => document.querySelector(x);
+      $('#b-test').onclick = () => {
+        const pattern = (code, input) => `(()=>{const main = ${code};return main(${input})})()`;
+        try{
+          $('#l-out').innerText = eval(pattern($('#in-code').value,$('#in-inp').value));
+        }
+        catch(e){
+          alert(e);
+        }
+      };
+      const getUrlParam = (x)=>{
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        return url.searchParams.get(x);
+      };
+      const lessonId = getUrlParam('lesson');
+      const loadLesson = async (x) => {
+        const { value : levels } = await import(`./${x}.mjs`);
+        const mylevel = parseInt(window.localStorage.getItem(`level/ti/${x}`) || 0);
+        if (mylevel === levels.length) {
+          window.localStorage.setItem(`lesson/ti/${x}`, 'done');
+          window.location = "/";
+          return;
+        }
+        const l = levels[mylevel];
+        const title = document.createElement('h1');
+        title.innerText = l.title;
+        $('#d-info').appendChild(title);
+        l.text.forEach(x => {
+          const ne = document.createElement('p');
+          ne.innerText = x;
+          $('#d-info').appendChild(ne);
+        });
+        $('#in-code').value = l.default.code;
+        $('#in-inp') .value = l.default.input;
+        $('#b-judge').onclick = () => {
+          const ca = eval($('#in-code').value);
+          const res = l.test.find(x=>String(ca(...x))!==String(l.judge(...x)));
+          if (res==undefined) {
+            window.localStorage.setItem(`level/ti/${x}`, mylevel+1);
+            loadLesson(x);
+            return;
+          }
+          else {
+            alert(`پاسخ شما به ازای ${res} نادرست است`);
+          }
+        };
+      };
+      loadLesson(lessonId);
+    </script>
+  </body>
+</html>
