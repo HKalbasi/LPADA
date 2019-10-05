@@ -22,5 +22,35 @@ export const value = [
     x: 300,
     y: 90,
     depend: [0],
-  }
+  },
+  {
+    id: 'ti/string',
+    x: 450,
+    y: 150,
+    depend: [2],
+  },
+  {
+    id: 'ti/bmi2',
+    x: 300,
+    y: 200,
+    depend: [3,4],
+  },
+  {
+    id: 'ti/namedMain',
+    x: 550,
+    y: 150,
+    depend: [2],
+  },
+  {
+    id: 'ti/recursive',
+    x: 550,
+    y: 190,
+    depend: [6],
+  },
+  {
+    id: 'ti/stringex',
+    x: 500,
+    y: 230,
+    depend: [4,7],
+  },
 ]
