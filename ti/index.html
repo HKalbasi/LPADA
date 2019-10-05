@@ -64,15 +64,8 @@
           return;
         }
         const l = levels[mylevel];
-        const title = document.createElement('h1');
-        title.innerText = l.title;
-        $('#d-info').innerHTML = "";
-        $('#d-info').appendChild(title);
-        l.text.forEach(x => {
-          const ne = document.createElement('p');
-          ne.innerText = x;
-          $('#d-info').appendChild(ne);
-        });
+        $('#d-info').innerHTML = 
+          `<h1>${l.title}</h1>${l.text.map(x=>`<p>${x}</p>`).join('')}`;
         $('#in-code').value = l.default.code;
         $('#in-inp') .value = l.default.input;
         $('#b-judge').onclick = () => {
