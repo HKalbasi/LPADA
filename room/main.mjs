@@ -17,4 +17,10 @@ export const value = [
     y: 110,
     depend: [1],
   },
+  {
+    id: "ti/bmi1",
+    x: 300,
+    y: 90,
+    depend: [0],
+  }
 ]
