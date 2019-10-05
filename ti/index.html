@@ -27,6 +27,7 @@
       <br>
       <button id="b-test">تست</button>
       <button id="b-judge">داوری و رفتن به مرحله بعدی</button>
+      <button id="b-skip">skip</button>
       <br>
       خروجی:
       <div id="l-out"></div>
@@ -48,6 +49,12 @@
         return url.searchParams.get(x);
       };
       const lessonId = getUrlParam('lesson');
+      const nextLevel = (x) => {
+        const mylevel = parseInt(window.localStorage.getItem(`level/ti/${x}`) || 0);
+        window.localStorage.setItem(`level/ti/${x}`, mylevel+1);
+        loadLesson(x);
+      };
+      $('#b-skip').onclick = () => nextLevel(lessonId);
       const loadLesson = async (x) => {
         const { value : levels } = await import(`./${x}.mjs`);
         const mylevel = parseInt(window.localStorage.getItem(`level/ti/${x}`) || 0);
@@ -72,8 +79,7 @@
           const ca = eval($('#in-code').value);
           const res = l.test.find(x=>String(ca(...x))!==String(l.judge(...x)));
           if (res==undefined) {
-            window.localStorage.setItem(`level/ti/${x}`, mylevel+1);
-            loadLesson(x);
+            nextLevel(x);
             return;
           }
           else {
