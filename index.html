@@ -43,7 +43,7 @@
         ctx.fillStyle = '#000';
         o.depend.forEach(i=>{
           const d = value[i];
-          canvas_arrow(d.x, d.y, o.x, o.y);
+          canvas_arrow(d.x, d.y+10, o.x, o.y-10);
         })
       });
       function getMousePos(canvas, evt) {
