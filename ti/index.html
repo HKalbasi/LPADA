@@ -15,23 +15,62 @@
     </style>
   </head>
   <body dir="rtl">
-    <div id="d-info" class="panel"></div>
-    <div class="panel">
-      برنامه:
-      <br>
-      <textarea id="in-code" class="big ltr" style="height: 40%"></textarea>
-      <br>
-      ورودی:
-      <br>
-      <textarea id="in-inp" class="big ltr"></textarea>
-      <br>
-      <button id="b-test">تست</button>
-      <button id="b-judge">داوری و رفتن به مرحله بعدی</button>
-      <button id="b-skip">skip</button>
-      <br>
-      خروجی:
-      <div id="l-out"></div>
+    <div style="display: flex; flex-direction: row; width: 100%; box-sizing: border-box">
+      <div style="flex-grow: 1;">
+        <div id="d-info" class="panel"></div>
+        <div class="panel">
+          برنامه:
+          <br>
+          <textarea id="in-code" class="big ltr" style="height: 40%"></textarea>
+          <br>
+          ورودی:
+          <br>
+          <textarea id="in-inp" class="big ltr"></textarea>
+          <br>
+          <button id="b-test">تست</button>
+          <button id="b-judge">داوری و رفتن به مرحله بعدی</button>
+          <button id="b-skip">skip</button>
+          <br>
+          خروجی:
+          <div id="l-out"></div>
+        </div>
+      </div>
+      <div style="writing-mode:vertical-rl">
+        تمامی محتوا به صورت آزاد منتشر شده است.
+        (
+        <a href="https://github.com/HKalbasi/LPADA">گیت‌هاب</a> -
+        <a href="../jsLicense" data-jslicense="1">
+          پروانه جاوا اسکریپت
+        </a>
+        )
+      </div>
     </div>
+    <script>
+      /*    
+      @licstart  The following is the entire license notice for the 
+      JavaScript code in this page.
+
+      Copyright (C) 2019 Hamidreza Kalbasi
+
+      The JavaScript code in this page is free software: you can
+      redistribute it and/or modify it under the terms of the GNU
+      General Public License (GNU GPL) as published by the Free Software
+      Foundation, either version 3 of the License, or (at your option)
+      any later version.  The code is distributed WITHOUT ANY WARRANTY;
+      without even the implied warranty of MERCHANTABILITY or FITNESS
+      FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+      As additional permission under GNU GPL version 3 section 7, you
+      may distribute non-source (e.g., minimized or compacted) forms of
+      that code without the copy of the GNU GPL normally required by
+      section 4, provided you include this license notice and a URL
+      through which recipients can access the Corresponding Source.   
+
+
+      @licend  The above is the entire license notice
+      for the JavaScript code in this page.
+      */
+    </script>
     <script type="module">
       const $ = x => document.querySelector(x);
       $('#b-test').onclick = () => {
