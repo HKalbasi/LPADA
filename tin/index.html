@@ -1,0 +1,142 @@
+<html>
+  <head>
+    <style>
+      .panel{
+        width: 49%;
+        display: inline-block;
+        vertical-align: top;
+      }
+      .big{
+        width: 100%;
+      }
+      .ltr{
+        direction: ltr;
+      }
+    </style>
+  </head>
+  <body dir="rtl">
+    <div style="display: flex; flex-direction: row; width: 100%; box-sizing: border-box">
+      <div style="flex-grow: 1;">
+        <div id="d-info" class="panel"></div>
+        <div class="panel">
+          برنامه:
+          <br>
+          <textarea id="in-code" class="big ltr" style="height: 40%"></textarea>
+          <br>
+          نام برنامه:
+          <br>
+          <input type="text" id="in-name" class="big ltr" value="main"></input>
+          <br>
+          ورودی:
+          <br>
+          <textarea id="in-inp" class="big ltr"></textarea>
+          <br>
+          <button id="b-test">تست</button>
+          <button id="b-judge">داوری و رفتن به مرحله بعدی</button>
+          <button id="b-skip">skip</button>
+          <br>
+          خروجی:
+          <div id="l-out"></div>
+        </div>
+      </div>
+      <div style="writing-mode:vertical-rl; transform: scale(-1,-1)">
+        تمامی محتوا به صورت آزاد منتشر شده است.
+        (
+        <a href="https://github.com/HKalbasi/LPADA">گیت‌هاب</a> -
+        <a href="../jsLicense" data-jslicense="1">
+          پروانه جاوا اسکریپت
+        </a>
+        )
+      </div>
+    </div>
+    <script>
+      /*    
+      @licstart  The following is the entire license notice for the 
+      JavaScript code in this page.
+
+      Copyright (C) 2019 Hamidreza Kalbasi
+
+      The JavaScript code in this page is free software: you can
+      redistribute it and/or modify it under the terms of the GNU
+      General Public License (GNU GPL) as published by the Free Software
+      Foundation, either version 3 of the License, or (at your option)
+      any later version.  The code is distributed WITHOUT ANY WARRANTY;
+      without even the implied warranty of MERCHANTABILITY or FITNESS
+      FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+      As additional permission under GNU GPL version 3 section 7, you
+      may distribute non-source (e.g., minimized or compacted) forms of
+      that code without the copy of the GNU GPL normally required by
+      section 4, provided you include this license notice and a URL
+      through which recipients can access the Corresponding Source.   
+
+
+      @licend  The above is the entire license notice
+      for the JavaScript code in this page.
+      */
+    </script>
+    <script type="module">
+      const $ = x => document.querySelector(x);
+      $('#b-test').onclick = () => {
+        const pattern = (code, input, name) => `(()=>{${code}return ${name}(${input})})()`;
+        try{
+          $('#l-out').innerText = eval(
+            pattern(
+              $('#in-code').value,
+              $('#in-inp').value,
+              $('#in-name').value,
+            )
+          );
+        }
+        catch(e){
+          alert(e);
+        }
+      };
+      const getUrlParam = (x)=>{
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        return url.searchParams.get(x);
+      };
+      const lessonId = getUrlParam('lesson');
+      const nextLevel = (x) => {
+        const mylevel = parseInt(window.localStorage.getItem(`level/tin/${x}`) || 0);
+        window.localStorage.setItem(`level/tin/${x}`, mylevel+1);
+        loadLesson(x);
+      };
+      $('#b-skip').onclick = () => nextLevel(lessonId);
+      const loadLesson = async (x) => {
+        const { value : levels } = await import(`./${x}.mjs`);
+        const mylevel = parseInt(window.localStorage.getItem(`level/tin/${x}`) || 0);
+        if (mylevel === levels.length) {
+          window.localStorage.setItem(`lesson/tin/${x}`, 'done');
+          window.location = "../";
+          return;
+        }
+        const l = levels[mylevel];
+        $('#d-info').innerHTML = 
+          `<h1>${l.title}</h1>${l.text.map(x=>`<p>${x}</p>`).join('')}`;
+        $('#in-code').value = l.default.code;
+        $('#in-inp') .value = l.default.input;
+        $('#b-judge').onclick = () => {
+          const pattern = (code, name) => 
+            `((...x)=>{${code}return ${name}(...x);})`;
+          try {
+            const ca = eval(pattern($('#in-code').value,$('#in-name').value));
+            const res = l.test.find(x=>String(ca(...x))!==String(l.judge(...x)));
+            if (res==undefined) {
+              nextLevel(x);
+              return;
+            }
+            else {
+              alert(`پاسخ شما نادرست است`);
+            }
+          }
+          catch(e) {
+            alert(e);
+          }
+        };
+      };
+      loadLesson(lessonId);
+    </script>
+  </body>
+</html>
