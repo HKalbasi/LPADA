@@ -36,13 +36,13 @@ export const value = [
     depend: [3,4],
   },
   {
-    id: 'ti/namedMain',
+    id: 'tin/namedFunctions',
     x: 550,
     y: 150,
     depend: [2],
   },
   {
-    id: 'ti/recursive',
+    id: 'tin/recursive',
     x: 550,
     y: 190,
     depend: [6],
