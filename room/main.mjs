@@ -25,7 +25,7 @@ export const value = [
   },
   {
     id: 'ti/string',
-    x: 450,
+    x: 420,
     y: 150,
     depend: [2],
   },
@@ -37,20 +37,32 @@ export const value = [
   },
   {
     id: 'tin/namedFunctions',
-    x: 550,
+    x: 500,
     y: 150,
     depend: [2],
   },
   {
-    id: 'tin/recursive',
-    x: 550,
-    y: 190,
-    depend: [6],
+    id: 'ti/array',
+    x: 580,
+    y: 150,
+    depend: [2],
   },
   {
-    id: 'ti/stringex',
+    id: 'tin/stringlib',
+    x: 450,
+    y: 190,
+    depend: [4,6],
+  },
+  {
+    id: 'tin/arraylib',
+    x: 550,
+    y: 190,
+    depend: [6,7],  
+  },
+  {
+    id: 'tin/stringarraylib',
     x: 500,
     y: 230,
-    depend: [4,7],
-  },
+    depend: [8,9],
+  }
 ]
