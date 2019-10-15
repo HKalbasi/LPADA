@@ -12,9 +12,16 @@
       .ltr{
         direction: ltr;
       }
+      #done-label {
+        margin:-10px -10px 10px -10px;
+        background: green; 
+        color:#FF7FFF;
+        text-align: center;
+      }
     </style>
   </head>
   <body dir="rtl">
+    <div hidden id="done-label">شما این مرحله را انجام داده اید.</div>
     <div style="display: flex; flex-direction: row; width: 100%; box-sizing: border-box">
       <div style="flex-grow: 1;">
         <div id="d-info" class="panel"></div>
@@ -109,8 +116,12 @@
         const mylevel = parseInt(window.localStorage.getItem(`level/tin/${x}`) || 0);
         if (mylevel === levels.length) {
           window.localStorage.setItem(`lesson/tin/${x}`, 'done');
+          window.localStorage.setItem(`level/tin/${x}`, '0');
           window.location = "../";
           return;
+        }
+        if (window.localStorage.getItem(`lesson/tin/${x}`) === 'done') {
+          $('#done-label').hidden = false;
         }
         const l = levels[mylevel];
         $('#d-info').innerHTML = 

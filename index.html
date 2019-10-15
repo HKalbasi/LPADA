@@ -113,7 +113,7 @@
       $('canvas').onmousedown = (evt) => {
         const nl = nlf(evt);
         if (nl !== undefined) {
-          if (nl.status === 'open')
+          if (nl.status === 'open' || nl.status === 'done')
             gotoLesson(nl.id);
         }
       };
