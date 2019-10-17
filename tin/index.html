@@ -83,6 +83,8 @@
       */
     </script>
     <script type="module">
+      import { P } from "../library/P.mjs";
+      import { L } from "../library/L.mjs";
       const $ = x => document.querySelector(x);
       $('#b-test').onclick = () => {
         const pattern = (code, input, name) => `(()=>{${code}return ${name}(${input})})()`;
