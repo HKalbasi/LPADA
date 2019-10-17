@@ -39,7 +39,7 @@
           <button id="b-skip">skip</button>
           <br>
           خروجی:
-          <div id="l-out"></div>
+          <div dir="ltr" id="l-out"></div>
         </div>
       </div>
       <div style="writing-mode:vertical-rl; transform: scale(-1,-1)">
@@ -81,11 +81,12 @@
     <script type="module">
       import { P } from "../library/P.mjs";
       import { L } from "../library/L.mjs";
+      import { printer } from "../sharedJs.mjs";
       const $ = x => document.querySelector(x);
       $('#b-test').onclick = () => {
         const pattern = (code, input) => `(()=>{const main = ${code};return main(${input})})()`;
         try{
-          $('#l-out').innerText = eval(pattern($('#in-code').value,$('#in-inp').value));
+          $('#l-out').innerText = printer(eval(pattern($('#in-code').value,$('#in-inp').value)));
         }
         catch(e){
           alert(e);
