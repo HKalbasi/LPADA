@@ -64,5 +64,11 @@ export const value = [
     x: 500,
     y: 230,
     depend: [8,9],
+  },
+  {
+    id: 'ti/boolop',
+    x: 700,
+    y: 130,
+    depend: [1],
   }
 ]
